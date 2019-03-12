@@ -35,17 +35,22 @@ int predatorNumber;
 
 void setup() {
   
-  size(displayWidth, displayHeight);
+  size(1000, 800);
+  
+  background(0);
   
   // user defined variables here
-  cellSize = 20;
+  cellSize = 10;
   preyChance = 5;
   predatorChance = 5;
   predatorMaxHealth = 25;
   preyMaxHealth = 50;
   
-  cellsX = width/cellSize;
+  cellsX = (width-200)/cellSize;
   cellsY = height/cellSize;
+  
+  fill(255);
+  rect(0, 0, width - 200, height);
   
   predatorCells = new int[cellsX][cellsY];
   preyCells = new int[cellsX][cellsY];
@@ -190,15 +195,29 @@ void moveCell(int x, int y) {
 }
 
 void drawCells() {
+  fill(100);
+  rect(width-200, 0, 200, height);
+  preyNumber = 0;
+  predatorNumber = 0;
   for(int x = 0; x < cellsX; x++) {
     for(int y = 0; y < cellsY; y++) {
-      if (predatorCells[x][y] == 1)
-        fill(255, 0, 0);
-      else if (preyCells[x][y] == 1)
-        fill(0, 255, 0);
+      if (predatorCells[x][y] == 1) {
+        fill(255, 0, 0, predatorHealth[x][y] * 10);
+        predatorNumber++;
+      }
+      else if (preyCells[x][y] == 1) {
+        fill(0, 255, 0, preyHealth[x][y] * 10);
+        preyNumber++;
+      }
       else
         fill(0);
       rect(x * cellSize, y * cellSize, cellSize, cellSize);
     }
   }
+  fill(255);
+  rect(width - 202, 0, 2, height);
+  fill(0, 255, 0);
+  rect(width - 200, 0, 100, map(preyNumber, 0, cellsX * cellsY / 4, 0, height));
+  fill(255, 0, 0);
+  rect(width - 100, 0, 100, map(predatorNumber, 0, cellsX * cellsY / 4, 0, height));
 }
