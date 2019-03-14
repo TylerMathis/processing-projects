@@ -8,7 +8,8 @@ class Planet
   final static float EP = 1000;
   
   final static float scale = 0.01;
-  float pScale = 100;
+  
+  float pScale = 1;
   
   // constructor for planet
   Planet(float _dis, float _rad, float _orbP, color _col)
@@ -38,7 +39,7 @@ class Planet
   }
   
   // draw planet and orbit
-  void drawPlanet()
+  void drawPlanet(boolean orbits)
   {
     // draw planet
     fill(col);
@@ -47,11 +48,14 @@ class Planet
     sphere(2 * rad * pScale);
     popMatrix();
     
+    if (orbits)
+    {
     // draw orbit
     stroke(255);
     strokeWeight(0.5);
     noFill();
     ellipse(0, 0, 2 * dis, 2 * dis);
     noStroke();
+    }
   }
 }
