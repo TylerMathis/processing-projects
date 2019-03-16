@@ -38,8 +38,6 @@ void draw()
 {
   pollInput();
   updatePlanets();
-    ambientLight(255, 0, 0);
-
   time++;
 }
 
