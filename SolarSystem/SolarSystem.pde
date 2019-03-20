@@ -23,9 +23,9 @@ void setup()
   planets.add(new Planet(1.00000011,  1,       1.0000174,  color(0, 119, 190)));
   planets.add(new Planet(1.52366231,  0.53260, 1.8808476,  color(80, 33, 0)));  
   planets.add(new Planet(5.20336301,  11.209,  11.862615,  color(205,133,63)));
-  planets.add(new Planet(9.53707032,  9.449,   29.447498,  color(218, 165, 32)));
+  planets.add(new Planet(9.53707032,  9.449,   29.447498,  color(218, 165, 32), true));
   planets.add(new Planet(19.19126393, 4.007,   84.016846,  color(235, 206, 250)));
-  planets.add(new Planet(30.06896348, 3.883,   164.79132,  color(0, 0, 255)));
+  planets.add(new Planet(30.06896348, 3.883,   164.79132,  color(0, 0, 255), true));
   
   cam = new QueasyCam(this);
   cam.speed = 100000 * Planet.scale;
@@ -114,6 +114,6 @@ void updatePlanets()
   for (Planet planet : planets)
   {
     planet.calcPos(time);
-    planet.drawPlanet(orbits);
+    planet.drawObject(orbits);
   }
 }

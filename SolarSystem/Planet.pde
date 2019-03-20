@@ -3,6 +3,7 @@ class Planet
   // all necessary variables delcared
   float posX, posY, dis, rad, orbP;
   color col;
+  boolean rings;
   final static float ER = 100;
   final static float AU = 23454.706481 * ER;
   final static float EP = 1000;
@@ -19,6 +20,20 @@ class Planet
     orbP = _orbP * EP;
     
     col = _col;
+    
+    rings = false;
+  }
+  
+  // constructor for planet
+  Planet(float _dis, float _rad, float _orbP, color _col, boolean _rings)
+  {
+    dis = _dis * AU * scale;
+    rad = _rad * ER * scale;
+    orbP = _orbP * EP;
+    
+    col = _col;
+    
+    rings = _rings;
   }
   
   // setter method for pScale
@@ -39,7 +54,16 @@ class Planet
   }
   
   // draw planet and orbit
-  void drawPlanet(boolean orbits)
+  void drawObject(boolean orbits)
+  {    
+    drawPlanet();
+    if (orbits)
+      drawOrbit();
+    if (rings)
+      drawRings();
+  }
+  
+  void drawPlanet()
   {
     // draw planet
     fill(col);
@@ -47,15 +71,25 @@ class Planet
     translate(posX, posY, 0);
     sphere(2 * rad * pScale);
     popMatrix();
-    
-    if (orbits)
-    {
+  }
+  
+  void drawOrbit()
+  {
     // draw orbit
     stroke(255);
     strokeWeight(0.5);
     noFill();
     ellipse(0, 0, 2 * dis, 2 * dis);
     noStroke();
-    }
+  }
+  
+  void drawRings()
+  {
+    // draw rings
+    stroke(col);
+    strokeWeight(0.1 * pScale);
+    noFill();
+    circle(posX, posY, 10 * rad * pScale);
+    noStroke();
   }
 }
