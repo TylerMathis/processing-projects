@@ -18,7 +18,7 @@ void draw() {
     background(0);
     fill(255);
     for (int i = 0; i < height / 5; i++) {
-      float rectWidth = (width * sin(theta)) - 5*i;
+      float rectWidth = (width * sin(theta)) - sq(i);
       rect(width / 2 - rectWidth / 2, i * 5, rectWidth, 5);
     }
     theta += 0.01;

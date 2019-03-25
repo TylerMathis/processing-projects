@@ -5,6 +5,10 @@ int cellSize;
 int cellsX;
 int cellsY;
 
+float percentDispData;
+int dataPixelWidth;
+int cellsPixelWidth;
+
 int[] newXY = new int[2];
 int newX;
 int newY;
@@ -27,17 +31,21 @@ float preyChance;
 int predatorMaxHealth;
 int preyMaxHealth;
 
+int maxSpeciesCount;
+int dataCap;
+
 float timeDelay;
 float timeBuffer;
 
-int preyNumber;
-int predatorNumber;
+int preyCount;
+int predatorCount;
+
+int preyDataHeight;
+int predatorDataHeight;
 
 void setup() {
   
-  size(1000, 800);
-  
-  background(0);
+  size(displayWidth, displayHeight);
   
   // user defined variables here
   cellSize = 10;
@@ -46,11 +54,12 @@ void setup() {
   predatorMaxHealth = 25;
   preyMaxHealth = 50;
   
-  cellsX = (width-200)/cellSize;
-  cellsY = height/cellSize;
+  percentDispData = 0.2;
+  dataPixelWidth = int(percentDispData * width);
+  cellsPixelWidth = width - dataPixelWidth;
   
-  fill(255);
-  rect(0, 0, width - 200, height);
+  cellsX = cellsPixelWidth/cellSize;
+  cellsY = height/cellSize;
   
   predatorCells = new int[cellsX][cellsY];
   preyCells = new int[cellsX][cellsY];
@@ -63,6 +72,9 @@ void setup() {
   
   predatorHealthBuffer = new int[cellsX][cellsY];
   preyHealthBuffer = new int[cellsX][cellsY];
+
+  maxSpeciesCount = cellsX * cellsY;
+  dataCap = maxSpeciesCount / 4;
 
   timeDelay = 0;
   timeBuffer = 500;
@@ -91,6 +103,7 @@ void draw(){
   if(millis() > timeBuffer) {
     calculateCells();
     drawCells();
+    drawData();
     timeBuffer += timeDelay;
   }
 }
@@ -195,29 +208,32 @@ void moveCell(int x, int y) {
 }
 
 void drawCells() {
-  fill(100);
-  rect(width-200, 0, 200, height);
-  preyNumber = 0;
-  predatorNumber = 0;
   for(int x = 0; x < cellsX; x++) {
     for(int y = 0; y < cellsY; y++) {
       if (predatorCells[x][y] == 1) {
         fill(255, 0, 0, predatorHealth[x][y] * 10);
-        predatorNumber++;
+        predatorCount++;
       }
       else if (preyCells[x][y] == 1) {
-        fill(0, 255, 0, preyHealth[x][y] * 10);
-        preyNumber++;
+        fill(0, 255, 0, preyHealth[x][y] * 5);
+        preyCount++;
       }
       else
         fill(0);
       rect(x * cellSize, y * cellSize, cellSize, cellSize);
     }
   }
-  fill(255);
-  rect(width - 202, 0, 2, height);
-  fill(0, 255, 0);
-  rect(width - 200, 0, 100, map(preyNumber, 0, cellsX * cellsY / 4, 0, height));
+}
+
+void drawData() {
+  fill(0);
+  rect(cellsPixelWidth, 0, dataPixelWidth, height);
+  predatorDataHeight = -(int)map(predatorCount, 0.0, dataCap, 0.0, height);
   fill(255, 0, 0);
-  rect(width - 100, 0, 100, map(predatorNumber, 0, cellsX * cellsY / 4, 0, height));
+  rect(cellsPixelWidth, height, dataPixelWidth / 2, predatorDataHeight);
+  preyDataHeight = -(int)map(preyCount, 0.0, dataCap, 0.0, height);
+  fill(0, 255, 0);
+  rect(cellsPixelWidth + dataPixelWidth / 2, height, dataPixelWidth / 2, preyDataHeight);
+  predatorCount = 0;
+  preyCount = 0;
 }
