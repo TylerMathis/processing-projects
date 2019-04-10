@@ -4,12 +4,15 @@ class Collection
   ArrayList<Integer> collection = new ArrayList<Integer>();
 
   int cellSize;
+  
+  int winningIndex;
 
   Collection(int size)
   {
     this.size = size;
 
     cellSize = width/size;
+    winningIndex = 0;
   }
 
   public void generateValues()
@@ -31,14 +34,17 @@ class Collection
     }
   }
 
-  public void incrementBubbleSort(int j)
+  public void incrementSelectionSort(int j)
   {
-    if (collection.get(j) > collection.get(j + 1))
-    {
-      Integer temp = collection.get(j);
-      collection.set(j, collection.get(j + 1));
-      collection.set(j + 1, temp);
-      this.drawValues();
-    }
+    if (collection.get(j) > collection.get(winningIndex))
+      winningIndex = j;
+  }
+  
+  public void swap(int index)
+  {
+    int temp = collection.get(winningIndex);
+    collection.set(winningIndex, collection.get(index));
+    collection.set(index, temp);
+    drawValues();
   }
 }

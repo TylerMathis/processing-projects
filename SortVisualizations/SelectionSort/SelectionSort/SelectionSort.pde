@@ -12,7 +12,7 @@ void setup()
   collection.generateValues();
   collection.drawValues();
   
-  i = 0;
+  i = collection.size - 1;
   j = 0;
 }
 
@@ -21,14 +21,17 @@ void draw()
     
   
   if (millis() > buffer)
-  {
-    j++;
-    if (j >= collection.size - i - 1)
+  {    
+    if (j == i)
     {
+      collection.swap(i);
       j = 0;
-      i++;
+      i--;
     }
-    if (i < collection.size - 1)
-      collection.incrementBubbleSort(j);
+    if (j < i);
+    {
+      collection.incrementSelectionSort(j);
+      j++;
+    }
   }
 }
