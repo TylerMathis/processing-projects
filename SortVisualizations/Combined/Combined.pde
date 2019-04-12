@@ -1,13 +1,18 @@
 int[] arr;
-boolean sorting = false, bubbleSorting = false;
-int i, j, rectWidth;
+boolean sorting = false, 
+  bubbleSorting = false, 
+  selectionSorting = false;
+int i, 
+  j, 
+  rectWidth, 
+  winningIndex;
 
 void setup()
 {
   size(1000, 600);
   background(0);
 
-  arr = new int[100];
+  arr = new int[15];
 
   rectWidth = width / arr.length;
 
@@ -27,11 +32,14 @@ void draw()
       bubbleSorting = true;
       i = arr.length - 1;
       j = 0;
-    }
-    else if (key == 's' && !sorting)
+    } else if (key == 's' && !sorting)
     {
-    }
-    else if (key == 'r' && !sorting)
+      sorting = true;
+      selectionSorting = true;
+      i = arr.length - 1;
+      j = 0;
+      winningIndex = 0;
+    } else if (key == 'r' && !sorting)
     {
       scrambleArr(arr.length * 5);
       drawArr();
@@ -39,7 +47,7 @@ void draw()
   }
   if (sorting)
   {
-    
+
     /* BUBBLE START */
     if (bubbleSorting)
     {
@@ -55,7 +63,7 @@ void draw()
           // fill the swapped pieces with black
           fill(0);
           rect(j*rectWidth, 0, 2*rectWidth, height);
-          
+
           // redraw them swapped
           fill(255);
           rect(j*rectWidth, height, rectWidth, -arr[j]);
@@ -77,7 +85,47 @@ void draw()
       }
     }
     /* BUBBLE END */
-    
+
+    /* SELECTION START */
+    if (selectionSorting)
+    {
+      if (i >= 0)
+      {
+        if (arr[j] > arr[winningIndex])
+          winningIndex = j;
+        if (j == i)
+        {
+          // swap array elements
+          int temp = arr[j];
+          arr[j] = arr[winningIndex];
+          arr[winningIndex] = temp;
+
+          // fill the swapped pieces with black
+          fill(0);
+          rect(j*rectWidth, 0, rectWidth, height);
+          rect((winningIndex)*rectWidth, 0, rectWidth, height);
+
+          // redraw them swapped
+          fill(255);
+          rect(j*rectWidth, height, rectWidth, -arr[j]);
+          rect((winningIndex)*rectWidth, height, rectWidth, -arr[winningIndex]);
+
+          // reset indices
+          winningIndex = 0;
+          j = 0;
+          i--;
+        }
+        if (j < i)
+        {
+          j++;
+        }
+      } else
+      {
+        sorting = false;
+        bubbleSorting = false;
+      }
+    }
+    /* SELECTION END */
   }
 }
 
