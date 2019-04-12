@@ -1,24 +1,33 @@
-int[] arr;
+int[] arr, 
+  arr2;
+
 boolean sorting = false, 
   bubbleSorting = false, 
-  selectionSorting = false;
+  selectionSorting = false, 
+  insertionSorting = false;
+
 int i, 
   j, 
   rectWidth, 
   winningIndex;
+
+float t;
 
 void setup()
 {
   size(1000, 600);
   background(0);
 
-  arr = new int[15];
+  textSize(50);
+
+  arr = new int[20];
+  arr2 = new int[arr.length];
 
   rectWidth = width / arr.length;
 
   populateArr();
   scrambleArr(arr.length * 5);
-  drawArr();
+  drawArr(false);
 }
 
 void draw()
@@ -26,33 +35,50 @@ void draw()
   if (keyPressed)
   {
     // Populate each sort tag with the correct i and j start values
-    if (key == 'b' && !sorting)
-    {
-      sorting = true;
-      bubbleSorting = true;
-      i = arr.length - 1;
-      j = 0;
-    } else if (key == 's' && !sorting)
-    {
-      sorting = true;
-      selectionSorting = true;
-      i = arr.length - 1;
-      j = 0;
-      winningIndex = 0;
-    } else if (key == 'r' && !sorting)
-    {
-      scrambleArr(arr.length * 5);
-      drawArr();
+    /*
+    
+     b - bubble
+     s - selection
+     i - insertion
+     r - randomize
+     
+     */
+    if (!sorting) {
+      if (key == 'b')
+      {
+        sorting = true;
+        bubbleSorting = true;
+        i = arr.length - 1;
+        j = 0;
+        t = millis();
+      } else if (key == 's')
+      {
+        sorting = true;
+        selectionSorting = true;
+        i = arr.length - 1;
+        j = 0;
+        winningIndex = 0;
+        t = millis();
+      } else if (key == 'i')
+      {
+        sorting = true;
+        insertionSorting = true;
+        i = 0;
+        j = i;
+        t = millis();
+      } else if (key == 'r')
+      {
+        scrambleArr(arr.length * 5);
+        drawArr(false);
+      }
     }
-  }
-  if (sorting)
+  } else
   {
-
     /* BUBBLE START */
     if (bubbleSorting)
     {
       if (i >= 0)
-      {
+      {        
         if (arr[j] > arr[j+1])
         {
           // swap array elements
@@ -60,14 +86,13 @@ void draw()
           arr[j] = arr[j+1];
           arr[j+1] = temp;
 
-          // fill the swapped pieces with black
-          fill(0);
-          rect(j*rectWidth, 0, 2*rectWidth, height);
+          drawArr(false);
 
           // redraw them swapped
-          fill(255);
+          fill(255, 0, 0);
           rect(j*rectWidth, height, rectWidth, -arr[j]);
           rect((j+1)*rectWidth, height, rectWidth, -arr[j+1]);
+          fill(255);
         }
         if (j < i)
         {
@@ -80,6 +105,10 @@ void draw()
         }
       } else
       {
+        drawArr(false);
+        fill(255, 0, 0);
+        text("Time to bubbleSort: " + (millis() - t), 20, 50);
+        fill(255);
         sorting = false;
         bubbleSorting = false;
       }
@@ -100,16 +129,6 @@ void draw()
           arr[j] = arr[winningIndex];
           arr[winningIndex] = temp;
 
-          // fill the swapped pieces with black
-          fill(0);
-          rect(j*rectWidth, 0, rectWidth, height);
-          rect((winningIndex)*rectWidth, 0, rectWidth, height);
-
-          // redraw them swapped
-          fill(255);
-          rect(j*rectWidth, height, rectWidth, -arr[j]);
-          rect((winningIndex)*rectWidth, height, rectWidth, -arr[winningIndex]);
-
           // reset indices
           winningIndex = 0;
           j = 0;
@@ -119,17 +138,35 @@ void draw()
         {
           j++;
         }
+        drawArr(false);
+        fill(255, 0, 0);
+        rect(j*rectWidth, height, rectWidth, -arr[j]);
+        fill(255);
       } else
       {
+        fill(255, 0, 0);
+        text("Time to selectionSort: " + (millis() - t), 20, 50);
+        fill(255);
         sorting = false;
-        bubbleSorting = false;
+        selectionSorting = false;
       }
     }
     /* SELECTION END */
+
+    ///* INSERTION START */
+    //if (insertionSorting)
+    //{
+    //  if (
+    //  if (j < i)
+    //  {
+    //    j++;
+    //  }
+    //}
+    ///* INSERTION END */
   }
 }
 
-// fill array with 1 to arr.length
+// fill array with 1 to arr.length - mapped to height
 void populateArr()
 {
   for (int i = 0; i < arr.length; i++)
@@ -139,12 +176,17 @@ void populateArr()
 }
 
 // draw the array
-void drawArr()
+void drawArr(boolean split)
 {
   background(0);
-  for (int i = 0; i < arr.length; i++)
+  if (!split)
   {
-    rect(rectWidth * i, height, rectWidth, -arr[i]);
+    for (int i = 0; i < arr.length; i++)
+      rect(rectWidth * i, height, rectWidth, -arr[i]);
+  } else
+  {
+    for (int i = 0; i < arr.length; i++)
+      rect(rectWidth * i, height / 2, rectWidth, -arr[i] / 2);
   }
 }
 
