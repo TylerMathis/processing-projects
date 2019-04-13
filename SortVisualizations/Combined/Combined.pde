@@ -64,7 +64,7 @@ void draw()
         sorting = true;
         insertionSorting = true;
         i = 0;
-        j = i;
+        j = 0;
         t = millis();
       } else if (key == 'r')
       {
@@ -121,13 +121,21 @@ void draw()
       if (i >= 0)
       {
         if (arr[j] > arr[winningIndex])
+        {
+          fill(255, 0, 0);
+          rect(j*rectWidth, height, rectWidth, -arr[j]);
+          fill(255);
+          rect(winningIndex*rectWidth, height, rectWidth, -arr[winningIndex]);
           winningIndex = j;
+        }
         if (j == i)
         {
           // swap array elements
           int temp = arr[j];
           arr[j] = arr[winningIndex];
           arr[winningIndex] = temp;
+
+          drawArr(false);
 
           // reset indices
           winningIndex = 0;
@@ -138,10 +146,6 @@ void draw()
         {
           j++;
         }
-        drawArr(false);
-        fill(255, 0, 0);
-        rect(j*rectWidth, height, rectWidth, -arr[j]);
-        fill(255);
       } else
       {
         fill(255, 0, 0);
@@ -153,16 +157,23 @@ void draw()
     }
     /* SELECTION END */
 
-    ///* INSERTION START */
-    //if (insertionSorting)
-    //{
-    //  if (
-    //  if (j < i)
-    //  {
-    //    j++;
-    //  }
-    //}
-    ///* INSERTION END */
+    /* INSERTION START */
+    if (insertionSorting)
+    {
+      if (i < arr.length - 1)
+      {
+        drawArr(true);
+        i++;
+      } else
+      {
+        fill(255, 0, 0);
+        text("Time to insertionSort: " + (millis() - t), 20, 50);
+        fill(255);
+        sorting = false;
+        insertionSorting = false;
+      }
+    }
+    /* INSERTION END */
   }
 }
 
