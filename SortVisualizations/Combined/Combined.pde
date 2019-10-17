@@ -1,15 +1,11 @@
-int[] arr, 
-  arr2;
+int[] arr, arr2;
 
 boolean sorting = false, 
   bubbleSorting = false, 
   selectionSorting = false, 
   insertionSorting = false;
 
-int i, 
-  j, 
-  rectWidth, 
-  winningIndex;
+int i, j, rectWidth, winningIndex;
 
 float t;
 
@@ -160,9 +156,24 @@ void draw()
     /* INSERTION START */
     if (insertionSorting)
     {
-      if (i < arr.length - 1)
+
+      if (i < arr.length)
       {
+        arr2[i] = arr[i];
+        j = i;
+        while (j != 0 && arr2[j] < arr2[j - 1])
+        {
+          // swap array elements
+          int temp = arr2[j];
+          arr2[j] = arr2[j - 1];
+          arr2[j - 1] = temp;
+          j--;
+        }
         drawArr(true);
+        drawArr2();
+        fill(255, 0, 0);
+        rect(i*rectWidth, height / 2, rectWidth, -arr[i] / 2);
+        fill(255);
         i++;
       } else
       {
@@ -199,6 +210,12 @@ void drawArr(boolean split)
     for (int i = 0; i < arr.length; i++)
       rect(rectWidth * i, height / 2, rectWidth, -arr[i] / 2);
   }
+}
+
+void drawArr2()
+{
+  for (int i = 0; i < arr2.length; i++)
+    rect(rectWidth * i, height, rectWidth, -arr2[i] / 2);
 }
 
 // randomly scramble

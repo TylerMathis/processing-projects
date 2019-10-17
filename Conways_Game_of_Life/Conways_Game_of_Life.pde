@@ -124,8 +124,6 @@ void calculateCells() {
 
       int neighbors = checkNeighbors(i, j);
 
-      print("\nNeighbors: " + neighbors);
-
       if (cells[i][j] == 1) {
         if (neighbors < 2 || neighbors > 3) {
           cellsBuffer[i][j] = 0;

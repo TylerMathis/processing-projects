@@ -211,11 +211,11 @@ void drawCells() {
   for(int x = 0; x < cellsX; x++) {
     for(int y = 0; y < cellsY; y++) {
       if (predatorCells[x][y] == 1) {
-        fill(255, 0, 0, predatorHealth[x][y] * 10);
+        fill(255, 0, 0, predatorHealth[x][y] * 10 + 5);
         predatorCount++;
       }
       else if (preyCells[x][y] == 1) {
-        fill(0, 255, 0, preyHealth[x][y] * 5);
+        fill(0, 255, 0, preyHealth[x][y] * 5 + 5);
         preyCount++;
       }
       else
