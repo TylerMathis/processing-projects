@@ -70,7 +70,7 @@ void keyPressed()
   
   // enter new scale
   else {
-    if (key == '1' || key == '2')
+    if (key == '1' || key == '0')
       result = result + key;
   }
   
