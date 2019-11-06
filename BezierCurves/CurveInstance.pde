@@ -10,7 +10,7 @@ class CurveInstance
   int circleSize = 20;
   // moved point
   int movedPoint;
-
+  
   // constructor lays out curve straight at first
   CurveInstance(PVector startingPos, int _smoothness)
   {
@@ -29,7 +29,6 @@ class CurveInstance
   void movePoint(PVector newLoc)
   {
     points[movedPoint] = newLoc;
-    drawCurve();
   }
 
   // calculate and draw curve
@@ -101,6 +100,11 @@ class CurveInstance
 
   PVector convScreenSpace(PVector loc)
   {
-    return new PVector(width / 2.0 + loc.x, height / 2.0 - loc.y);
+    float convX = width / gridX;
+    float convY = height / gridY;
+    float xUnitToPx = loc.x * convX;
+    float yUnitToPx = loc.y * convY;
+    
+    return new PVector(width / 2.0 + xUnitToPx, height / 2.0 - yUnitToPx);
   }
 }
