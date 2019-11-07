@@ -55,14 +55,27 @@ void checkAndHandleMouse()
         if (curves.get(curve).startMove())
         {
           if (keyPressed)
+          {
             if (key == 'p')
             {
               print("keyboardInp\n");
               keyboardInp = true;
+              validMove = true;
+              moving = true;
+              targettedCurve = curve;
             }
-          validMove = true;
-          moving = true;
-          targettedCurve = curve;
+            else if (key == 'd')
+            {
+              validMove = true;
+              curves.remove(curve);
+              drawScene();
+            }
+          } else
+          {
+            validMove = true;
+            moving = true;
+            targettedCurve = curve;
+          }
         }
       }
       if (!validMove)
