@@ -22,7 +22,7 @@ void setup() {
 
   cellSize = 20;
 
-  percentChanceWhite = 15;
+  percentChanceWhite = 0;
 
   buffer = 400;
   bufferDelay = 25;

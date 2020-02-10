@@ -48,11 +48,11 @@ void setup() {
   size(displayWidth, displayHeight);
   
   // user defined variables here
-  cellSize = 10;
+  cellSize = 5;
   preyChance = 5;
   predatorChance = 5;
   predatorMaxHealth = 25;
-  preyMaxHealth = 50;
+  preyMaxHealth = 25;
   
   percentDispData = 0.2;
   dataPixelWidth = int(percentDispData * width);
@@ -100,12 +100,12 @@ void initializeCells() {
 }
   
 void draw(){
-  if(millis() > timeBuffer) {
+  //if(millis() > timeBuffer) {
     calculateCells();
     drawCells();
     drawData();
-    timeBuffer += timeDelay;
-  }
+    //timeBuffer += timeDelay;
+  //}
 }
 
 void calculateCells() {
@@ -176,6 +176,7 @@ void calculateCells() {
         newY = newXY[1];
         
         preyCellsBuffer[newX][newY] = 1;
+        preyHealthBuffer[newX][newY] = 1;
       }
       
       // update main array to match buffer
